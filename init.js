@@ -129,15 +129,15 @@
                                     if (response.status == "success") {
                                         codiad.filemanager.rescan($('#project-root').attr('data-path'));
                                     }
-                                    codiad.message[response.status](response.message);
+                                    codiad.toast[response.status](response.message);
                                 });
                             } else {
-                                codiad.message.error(result.message + " on Line " + result.line + " Column " + result.column);
+                                codiad.toast.error(result.message + " on Line " + result.line + " Column " + result.column);
                             }
                         });
                     });
                 } else {
-                    codiad.message.error(json.message);
+                    codiad.toast.error(json.message);
                 }
             });
         },
