@@ -9,66 +9,94 @@
 
 require_once('../../common.php');
 checkSession();
-
+ 
 require_once "scssphp/scss.inc.php";
 use ScssPhp\ScssPhp\Compiler;
 
-switch ($_GET['action']) {
+$action = '';
+$path = '';
+
+if (isset($_GET['action']) && isset($_GET['path'])) {
+	$action = $_GET['action'];
+	$path = $_GET['path'];
+
+	if (!Common::checkPath($path)) {
+		die('{"status":"error","message":"Invalid path"}');
+	}
+
+} elseif (isset($_POST['data'])) {
+	$data = json_decode($_POST['data']);
+	$action = $data->action;
+	$path = $data->path;
+
+	echo json_encode(array("status" => "success", "content" => $content));
+
+
+} else {
+	die('{"status":"error","message":"Missing action/path"}');
+}
+
+switch ($action) {
 
 	case 'getContent':
-		if (isset($_GET['path'])) {
-			$content = file_get_contents(getWorkspacePath($_GET['path']));
-			echo json_encode(array("status" => "success", "content" => $content));
-		} else {
-			echo '{"status":"error","message":"Missing Parameter!"}';
-		}
+		$content = file_get_contents(getWorkspacePath($_GET['path']));
+		echo json_encode(array("status" => "success", "content" => $content));
+
 		break;
 	case 'phpCompile':
-		if (isset($_GET['path'])) {
-			$path = $_GET['path'];
-			// echo json_encode(array("status" => "success", "path" => $path));
-			ini_set('display_errors', 1);
-			ini_set('display_startup_errors', 1);
-			error_reporting(E_ALL);
+		$file = getWorkSpacePath($path);
 
-			$scss = new Compiler();
-			echo $scss->compile('
-				$color: #abc;
-				div { color: lighten($color, 20%); }
-			');
-		} else {
-			echo '{"status":"error","message":"Missing Parameter!"}';
-		}
+		$pathInfo = pathinfo($file);
+
+		$path = $pathInfo['dirname'];
+		$name = $pathInfo['filename'];
+
+		// echo $path_parts['dirname']
+		// echo $path_parts['basename']
+		// echo $path_parts['extension']
+		// echo $path_parts['filename']
+
+
+		$scss = new Compiler();
+		$scss->setImportPaths($path);
+		$scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed');
+
+		// // will search for 'assets/stylesheets/mixins.scss'
+		$content = file_get_contents($file);
+		$compiled = $scss->compile($content);
+		file_put_contents($path . "/$name.min.css", $compiled);
+
+		// echo $compiled;
+
+
+
 		break;
 
 	case 'getFileTree':
-		if (isset($_GET['path'])) {
-			$path = dirname(getWorkspacePath($_GET['path']));
-			$tree = scanProject($path);
-			foreach ($tree as $i => $file) {
-				$tree[$i] = str_replace($path . "/", "", $file);
-			}
-			$result = array("status" => "success", "tree" => $tree);
-			echo json_encode($result);
-		} else {
-			echo '{"status":"error","message":"Missing Parameter!"}';
+		$path = dirname(getWorkspacePath($path));
+		$tree = scanProject($path);
+		foreach ($tree as $i => $file) {
+			$tree[$i] = str_replace($path . "/", "", $file);
 		}
+		$result = array("status" => "success", "tree" => $tree);
+		echo json_encode($result);
+
 		break;
 
 	case 'saveContent':
-		if (isset($_GET['path']) && isset($_POST['content'])) {
+		if (isset($_POST['content'])) {
 			$dir = dirname($_GET['path']);
 			$base = basename($_GET['path']);
 			$new = preg_replace("/(\w+)(\.scss|\.sass)$/", "$1.css", $base);
 			file_put_contents(getWorkspacePath($dir . "/" . $new), $_POST['content']);
 			echo '{"status":"success","message":"Sass file compiled!"}';
 		} else {
-			echo '{"status":"error","message":"Missing Parameter!"}';
+			echo '{"status":"error","message":"missing content"}';
 		}
 		break;
 
 	default:
-		echo '{"status":"error","message":"No Type"}';
+		echo '{"status":"error","message":"missiing action"}';
 		break;
 }
 

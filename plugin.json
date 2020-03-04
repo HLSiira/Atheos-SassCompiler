@@ -2,5 +2,10 @@
 	"author": "HlSiira",
 	"version": "1.0.0",
 	"name": "SassCompiler",
-	"url": "https://github.com/HLSiira/Atheos-SassCompiler"
+	"url": "https://github.com/HLSiira/Atheos-SassCompiler",
+	"config": [{
+		"file": "dialog.php",
+		"icon": "fab fa-sass",
+		"title": "SassCompiler"
+	}]
 }]
