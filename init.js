@@ -38,7 +38,7 @@
 				}
 			});
 			amplify.subscribe('contextmenu.hide', function() {
-				var nodes = o('#contextmenu').find('.sass');
+				var nodes = o('#contextmenu').findAll('.sass');
 				if (nodes) {
 					nodes.forEach(function(node) {
 						node.remove();

@@ -1,11 +1,14 @@
-[{
-	"author": "HlSiira",
-	"version": "1.0.0",
+{
+	"author": "HLSiira",
 	"name": "SassCompiler",
+	"description": "Sass/Scss Compiler for Atheos",
+	"category": "Development",
+	"status": "available",
 	"url": "https://github.com/HLSiira/Atheos-SassCompiler",
+	"version": "1.0.0",
 	"config": [{
 		"file": "dialog.php",
 		"icon": "fab fa-sass",
 		"title": "SassCompiler"
 	}]
-}]
+}
