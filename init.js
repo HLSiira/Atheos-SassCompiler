@@ -19,9 +19,7 @@
 		path = scripts[scripts.length - 1].src.split('?')[0],
 		curpath = path.split('/').slice(0, -1).join('/') + '/';
 
-	amplify.subscribe('atheos.loaded', function() {
-		atheos.sass.init();
-	});
+	amplify.subscribe('system.loadExtra', () => atheos.sass.init());
 
 	atheos.sass = {
 
@@ -37,14 +35,6 @@
 					obj.menu.append('<a class="file-only sass" onclick="atheos.sass.compile();"><i class="fab fa-sass"></i></span>Compile Sass</a>');
 				}
 			});
-			amplify.subscribe('contextmenu.hide', function() {
-				var nodes = o('#contextmenu').findAll('.sass');
-				if (nodes) {
-					nodes.forEach(function(node) {
-						node.remove();
-					});
-				}
-			});
 		},
 
 		compile: function() {
@@ -56,7 +46,7 @@
 				'path': path
 			};
 
-			ajax({
+			echo({
 				url: this.path + 'controller.php',
 				data: data,
 				success: function(data) {
