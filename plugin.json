@@ -1,5 +1,5 @@
 {
-	"author": "HLSiira",
+	"author": ["HLSiira", "Andr3as"],
 	"name": "SassCompiler",
 	"description": "Sass/Scss Compiler for Atheos",
 	"category": "Development",
