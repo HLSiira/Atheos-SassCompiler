@@ -1,5 +1,5 @@
 <label class="header"><i class="fab fa-sass"></i>Sass Compiler Settings</label>
-<table class="settings">
+<table>
 	<tr>
 		<td>Format:</td>
 		<td>
