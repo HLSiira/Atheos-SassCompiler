@@ -14,20 +14,19 @@
 
 	var atheos = global.atheos,
 		amplify = global.amplify,
-		o = global.onyx,
-		scripts = document.getElementsByTagName('script'),
-		path = scripts[scripts.length - 1].src.split('?')[0],
-		curpath = path.split('/').slice(0, -1).join('/') + '/';
+		oX = global.onyx;
+
+	var self = null;
 
 	amplify.subscribe('system.loadExtra', () => atheos.sass.init());
 
 	atheos.sass = {
 
-		path: curpath,
-
+		controller: atheos.path + 'plugins/SassCompiler/controller.php',
+		dialog: atheos.path + 'plugins/SassCompiler/dialog.php',
 
 		init: function() {
-			var sass = this;
+			self = this;
 
 			amplify.subscribe('contextmenu.show', function(obj) {
 				if (/(\.sass|\.scss)$/.test(obj.path)) {
@@ -38,16 +37,18 @@
 		},
 
 		compile: function() {
-			var path = o('#contextmenu').attr('data-path');
+			var path = oX('#contextmenu').attr('data-path');
 
 			data = {
 				'action': 'phpCompile',
 				'format': 'compressed',
 				'path': path
 			};
+			
+			log(self.controller);
 
 			echo({
-				url: this.path + 'controller.php',
+				url: self.controller,
 				data: data,
 				success: function(data) {
 					data.raw = true;
