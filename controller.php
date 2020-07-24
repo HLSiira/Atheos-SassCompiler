@@ -6,7 +6,7 @@
 // warranty under the modified License: MIT - Hippocratic 1.2: firstdonoharm.dev
 // See [root]/license.md for more. This information must remain intact.
 //////////////////////////////////////////////////////////////////////////////80
-// Description: 
+// Description:
 // An Scss Compiler using ScssPHP, built for Atheos IDE.
 //												- Liam Siira
 //////////////////////////////////////////////////////////////////////////////80
@@ -43,6 +43,15 @@ switch ($action) {
 		try {
 
 			$scss = new Compiler();
+
+			// $scss->setSourceMap(Compiler::SOURCE_MAP_FILE);
+			// $scss->setSourceMapOptions([
+			// 	'sourceMapWriteTo' => "$fullpath/$name.map",
+			// 	// relative or full url to the above .map file
+			// 	'sourceMapURL' => './',
+			// ]);
+
+
 			$scss->setImportPaths($fullpath);
 			$scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed');
 

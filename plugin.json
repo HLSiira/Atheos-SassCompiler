@@ -2,7 +2,7 @@
 	"author": ["HLSiira", "Andr3as"],
 	"name": "SassCompiler",
 	"description": "Sass/Scss Compiler for Atheos",
-	"category": "Development",
+	"category": "Compiler",
 	"status": "available",
 	"url": "https://github.com/HLSiira/Atheos-SassCompiler",
 	"version": "1.0.0",
