@@ -13,8 +13,7 @@
 (function(global) {
 
 	var atheos = global.atheos,
-		amplify = global.amplify,
-		oX = global.onyx;
+		amplify = global.amplify;
 
 	var self = null;
 
@@ -31,20 +30,19 @@
 			amplify.subscribe('contextmenu.show', function(obj) {
 				if (/(\.sass|\.scss)$/.test(obj.path)) {
 					obj.menu.append('<hr class="file-only sass">');
-					obj.menu.append('<a class="file-only sass" onclick="atheos.sass.compile();"><i class="fab fa-sass"></i></span>Compile Sass</a>');
+					obj.menu.append('<a class="file-only sass" onclick="atheos.sass.compile(\'' + obj.path + '\');"><i class="fab fa-sass"></i></span>Compile Sass</a>');
 				}
 			});
 		},
 
-		compile: function() {
-			var path = oX('#contextmenu').attr('data-path');
-
+		compile: function(path) {
 			data = {
 				'action': 'phpCompile',
 				'format': 'compressed',
 				'path': path
 			};
-			
+					
+
 			log(self.controller);
 
 			echo({
