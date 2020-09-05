@@ -3,19 +3,13 @@
 // SassCompiler
 //////////////////////////////////////////////////////////////////////////////80
 // Copyright (c) Atheos & Liam Siira (Atheos.io), distributed as-is and without
-// warranty under the modified License: MIT - Hippocratic 1.2: firstdonoharm.dev
-// See [root]/license.md for more. This information must remain intact.
+// warranty under the MIT License. See [root]/LICENSE.md for more.
+// This information must remain intact.
 //////////////////////////////////////////////////////////////////////////////80
 // Description:
 // An Scss Compiler using ScssPHP, built for Atheos IDE.
 //												- Liam Siira
 //////////////////////////////////////////////////////////////////////////////80
-
-require_once('../../common.php');
-//////////////////////////////////////////////////////////////////////////////80
-// Verify Session or Key
-//////////////////////////////////////////////////////////////////////////////80
-Common::checkSession();
 
 require_once "scssphp/scss.inc.php";
 use ScssPhp\ScssPhp\Compiler;

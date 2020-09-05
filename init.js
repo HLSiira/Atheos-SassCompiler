@@ -2,8 +2,8 @@
 // SassCompiler
 //////////////////////////////////////////////////////////////////////////////80
 // Copyright (c) Atheos & Liam Siira (Atheos.io), distributed as-is and without
-// warranty under the modified License: MIT - Hippocratic 1.2: firstdonoharm.dev
-// See [root]/license.md for more. This information must remain intact.
+// warranty under the MIT License. See [root]/LICENSE.md for more.
+// This information must remain intact.
 //////////////////////////////////////////////////////////////////////////////80
 // Description: 
 // An Scss Compiler using ScssPHP, built for Atheos IDE.
@@ -21,9 +21,6 @@
 
 	atheos.sass = {
 
-		controller: atheos.path + 'plugins/SassCompiler/controller.php',
-		dialog: atheos.path + 'plugins/SassCompiler/dialog.php',
-
 		init: function() {
 			self = this;
 
@@ -37,16 +34,14 @@
 
 		compile: function(path) {
 			data = {
+				'target': 'SassCompiler',
 				'action': 'phpCompile',
 				'format': 'compressed',
 				'path': path
 			};
 					
-
-			log(self.controller);
-
 			echo({
-				url: self.controller,
+				url: atheos.controller,
 				data: data,
 				success: function(data) {
 					data.raw = true;
