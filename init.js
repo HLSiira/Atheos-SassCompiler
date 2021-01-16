@@ -13,18 +13,18 @@
 (function(global) {
 
 	var atheos = global.atheos,
-		amplify = global.amplify;
+		carbon = global.carbon;
 
 	var self = null;
 
-	amplify.subscribe('system.loadExtra', () => atheos.sass.init());
+	carbon.subscribe('system.loadExtra', () => atheos.sass.init());
 
 	atheos.sass = {
 
 		init: function() {
 			self = this;
 
-			amplify.subscribe('contextmenu.show', function(obj) {
+			carbon.subscribe('contextmenu.show', function(obj) {
 				if (/(\.sass|\.scss)$/.test(obj.path)) {
 					obj.menu.append('<hr class="file-only sass">');
 					obj.menu.append('<a class="file-only sass" onclick="atheos.sass.compile(\'' + obj.path + '\');"><i class="fab fa-sass"></i></span>Compile Sass</a>');
