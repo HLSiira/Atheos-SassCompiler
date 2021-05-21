@@ -10,36 +10,38 @@
 //												- Liam Siira
 //////////////////////////////////////////////////////////////////////////////80
 
-(function(global) {
+(function() {
 
-	var atheos = global.atheos,
-		carbon = global.carbon;
-
-	var self = null;
-
-	carbon.subscribe('system.loadExtra', () => atheos.sass.init());
-
-	atheos.sass = {
+	const self = {
 
 		init: function() {
-			self = this;
+			// Add a small HR to context menu
+			atheos.contextmenu.fileMenu.push({
+				title: 'sass_compile',
+				type: 'file',
+				exts: ['sass', 'scss']
+			});
 
-			carbon.subscribe('contextmenu.show', function(obj) {
-				if (/(\.sass|\.scss)$/.test(obj.path)) {
-					obj.menu.append('<hr class="file-only sass">');
-					obj.menu.append('<a class="file-only sass" onclick="atheos.sass.compile(\'' + obj.path + '\');"><i class="fab fa-sass"></i></span>Compile Sass</a>');
-				}
+			// Add a Compile action to context menu
+			atheos.contextmenu.fileMenu.push({
+				title: 'Compile Sass',
+				icon: 'fab fa-sass',
+				type: 'file',
+				fTypes: ['sass', 'scss'],
+				action: 'atheos.sass.compile'
 			});
 		},
 
-		compile: function(path) {
+		compile: function(anchor) {
+			let path = anchor.path;
+
 			data = {
-				'target': 'SassCompiler',
-				'action': 'phpCompile',
-				'format': 'compressed',
-				'path': path
+				target: 'SassCompiler',
+				action: 'phpCompile',
+				format: 'compressed',
+				path: path
 			};
-					
+
 			echo({
 				url: atheos.controller,
 				data: data,
@@ -48,7 +50,10 @@
 					atheos.toast.show(data);
 				}
 			});
-
 		}
 	};
-})(this);
+
+	carbon.subscribe('contextmenu.requestItems', self.init);
+	atheos.sass = self;
+
+})();
