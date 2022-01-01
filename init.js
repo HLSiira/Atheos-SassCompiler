@@ -19,7 +19,7 @@
 			atheos.contextmenu.fileMenu.push({
 				title: 'sass_compile',
 				type: 'file',
-				exts: ['sass', 'scss']
+				fTypes: ['sass', 'scss']
 			});
 
 			// Add a Compile action to context menu
@@ -45,9 +45,12 @@
 			echo({
 				url: atheos.controller,
 				data: data,
-				success: function(data) {
-					data.raw = true;
-					atheos.toast.show(data);
+				settled: function(status, reply) {
+					if(status === 'success') {
+						toast(status, reply);
+					} else {
+						output(status, reply);
+					}
 				}
 			});
 		}

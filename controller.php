@@ -11,7 +11,7 @@
 //												- Liam Siira
 //////////////////////////////////////////////////////////////////////////////80
 
-require_once "scssphp/scss.inc.php";
+require_once "scssphp-1.9.0/scss.inc.php";
 use ScssPhp\ScssPhp\Compiler;
 
 $path = POST("path");
@@ -48,25 +48,7 @@ switch ($action) {
 			Common::send("success", "Compiled to $name.min.css");
 
 		} catch (\Exception $e) {
-			$error = $e->getMessage();
-			preg_match("/(?<=line )\d+(?!=,)/i", $error, $line);
-			preg_match("/(?<=column )\d+(?!= )/i", $error, $column);
-
-			if (strpos($error, "(stdin)") > 0) {
-				$error = " in " . $pathInfo["basename"];
-			} else {
-				$remove = Common::getWorkspacePath(pathinfo($path)["dirname"]);
-				$error = explode($remove, $error)[1];
-				$error = " in " . explode(" on line", $error)[0];
-			}
-
-
-			$data = array(
-				"text" => $e->getMessage(),
-				"pure" => "Error on Line $line[0]:$column[0]$error"
-			);
-			
-			Common::send("error", $data);
+			Common::send("error", $e->getMessage());
 		}
 
 
